@@ -1,0 +1,62 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu May  5 15:42:12 2022
+
+@author: simon
+"""
+
+import nltk
+#nltk.download('punkt')
+sent_detector = nltk.data.load('tokenizers/punkt/english.pickle')
+
+# 5. Define a function word_tokenize that takes one string input sent_str of an English sentence, 
+#    split the sent_str into strings of words (using a Python built-in string method with the English word delimiter " "),
+#    and finally return the word list;
+#    how does the outcome of your word_tokenize function differ from that of nltk.word_tokenize(sent)? 
+#    how do you improve your word_tokenize function? Post your answers to the online text of eCourse homework submission.
+
+#    You can type help(str.split) to get the following hint:
+#        The string method split(sep=" ") can split the string into a list of strings, using the default delimiter sep=" ".
+
+# Test example 1:
+sent = "Good muffins cost $388 in New York."
+# Out: ['Good', 'muffins', 'cost', '$388', 'in', 'New', 'York.']
+
+def word_tokenize(sent_str):
+
+    word_list = sent_str.split()
+    return word_list
+print(word_tokenize(sent))
+print(nltk.word_tokenize(sent))
+
+# 6. Define a function sent_tokenize that takes one string input text_str of an English text, 
+#    split the text string into sentence strings (using the English sentence ending period "." as the delimiter), 
+#    call your word_tokenize function to process each sentence string,
+#    and finally return the processed sentence list (it shall be a list of sentences, where each sentence is made up by a list of words);
+#    how does the outcome of your sent_tokenize function differ from that of nltk.sent_tokenize(text)? Post your answer to the online text of eCourse homework submission.
+
+# Test example 2:'''
+text = '''Good muffins cost $388 in New York. Please buy me two of them. Thanks.'''
+# Out: [['Good', 'muffins', 'cost', '$388', 'in', 'New', 'York'],  ['Please', 'buy', 'me', 'two', 'of', 'them'],  ['Thanks'],  []]
+
+def sent_tokenize(text_str):
+    
+    sentences_list = text_str.split('.')
+    for sent in range(len(sentences_list)):
+        sentences_list[sent] += '.'
+        sentences_list[sent] = sentences_list[sent].strip()
+    return sentences_list
+print(sent_tokenize(text))
+print(nltk.sent_tokenize(text))
+import unittest
+class TestStringMethods(unittest.TestCase):
+    def test_wordTokenization(self):
+        self.assertEqual(word_tokenize(sent_str=sent), 
+                         ['Good', 'muffins', 'cost', '$388', 'in', 'New', 'York.']
+                        )
+    def test_sentenceTokenization(self):
+        self.assertEqual(sent_tokenize(text_str=text), 
+                         [['Good', 'muffins', 'cost', '$388', 'in', 'New', 'York'],  ['Please', 'buy', 'me', 'two', 'of', 'them'],  ['Thanks'],  []]
+                        )
+
+unittest.main()
